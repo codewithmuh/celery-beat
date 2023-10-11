@@ -1,0 +1,5 @@
+ docker-compose exec web python manage.py loaddata products.json
+
+
+  docker-compose exec web python manage.py my_custom_command  
+
