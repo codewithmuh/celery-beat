@@ -150,4 +150,13 @@ CELERY_BEAT_SCHEDULE = {
         "task": "core.task.sample_task",
         "schedule": crontab(minute="*/1"),
     },
+    "send_email_report": {
+        "task": "core.task.send_email_report",
+        "schedule": crontab(hour="*/1"),
+    },
 }
+
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+DEFAULT_FROM_EMAIL = "noreply@email.com"
+ADMINS = [("testuser", "test.user@email.com"), ]
