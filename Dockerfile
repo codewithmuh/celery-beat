@@ -20,8 +20,11 @@ RUN pip install -r requirements.txt
 
 # copy project
 COPY . /usr/src/app/
+RUN python manage.py makemigrations
 RUN python manage.py migrate
+
 RUN python manage.py collectstatic --no-input --clear
+
 
 # Add execute permissions to entrypoint.sh
 

@@ -43,6 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'orders',
+    'celery',
+    'django_celery_beat',
+    'django_celery_results',
 ]
 
 MIDDLEWARE = [
@@ -142,8 +145,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 CELERY_BROKER_URL = "redis://redis:6379"
-CELERY_RESULT_BACKEND = "redis://redis:6379"
-
+CELERY_RESULT_BACKEND =  "redis://redis:6379"
+# CELERY_BEAT_SCHEDULER ="django_celery_beat.schedulers.DatabaseScheduler"
 
 CELERY_BEAT_SCHEDULE = {
     "sample_task": {
@@ -153,10 +156,24 @@ CELERY_BEAT_SCHEDULE = {
     "send_email_report": {
         "task": "core.task.send_email_report",
         "schedule": crontab(hour="*/1"),
+     },
+       "send_notification": {
+        "task": "core.task.send_notification",
+        "schedule": crontab(minute="*/1"),
     },
+
 }
 
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 DEFAULT_FROM_EMAIL = "noreply@email.com"
 ADMINS = [("testuser", "test.user@email.com"), ]
+
+
+# e-mail settings
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'codewithmuh@gmail.com'
+EMAIL_HOST_PASSWORD = 'qjdvntgrwwnlqwyh'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
